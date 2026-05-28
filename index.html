@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCSUPLES — Impulsando Tu Mejor Versión</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0d1b3e;--red:#cc1c1c;--red2:#e02020;--white:#f5f5f0;--gray:#8a8f9e;--card-bg:#13203f;--card-border:rgba(204,28,28,0.18);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--navy);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;background:rgba(13,27,62,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(204,28,28,0.25);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo img{width:42px;height:42px;object-fit:contain;border-radius:50%;}
+.nav-logo span{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--white);}
+.nav-links{display:flex;gap:2rem;}
+.nav-links a{color:var(--gray);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--red2);}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-social{display:flex;gap:14px;}
+.nav-social a{color:var(--gray);transition:color .2s;display:flex;align-items:center;}
+.nav-social a:hover{color:var(--red2);}
+.nav-social svg{width:20px;height:20px;fill:currentColor;}
+.cart-btn{position:relative;background:var(--red);border:none;border-radius:2px;padding:8px 14px;color:white;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s;}
+.cart-btn:hover{background:var(--red2);}
+.cart-count{position:absolute;top:-6px;right:-6px;background:#fff;color:var(--red);border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;display:none;}
+.cart-count.show{display:flex;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 2rem 4rem;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(204,28,28,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(204,28,28,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(204,28,28,0.12) 0%,transparent 70%);pointer-events:none;}
+.hero-logo{width:140px;height:140px;object-fit:contain;margin-bottom:2rem;animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both;filter:drop-shadow(0 0 30px rgba(204,28,28,0.4));border-radius:50%;}
+@keyframes popIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,12vw,9rem);letter-spacing:6px;line-height:.9;color:var(--white);animation:slideUp .7s .15s ease both;}
+.hero h1 span{color:var(--red);}
+.hero-tagline{font-family:'Barlow Condensed',sans-serif;font-size:clamp(1rem,2.5vw,1.4rem);letter-spacing:.35em;text-transform:uppercase;color:var(--gray);margin-top:1rem;animation:slideUp .7s .3s ease both;}
+.hero-divider{width:80px;height:3px;background:var(--red);margin:1.5rem auto;animation:slideUp .7s .4s ease both;}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:slideUp .7s .5s ease both;}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.btn-primary{background:var(--red);color:var(--white);padding:13px 32px;border:none;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .2s,transform .1s;display:inline-block;}
+.btn-primary:hover{background:var(--red2);transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--white);padding:12px 32px;border:1.5px solid rgba(245,245,240,.3);border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:border-color .2s,transform .1s;display:inline-block;}
+.btn-outline:hover{border-color:var(--white);transform:translateY(-1px);}
+
+/* STATS */
+.stats-bar{background:var(--red);padding:18px 2rem;display:flex;justify-content:center;gap:4rem;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;line-height:1;}
+.stat-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-top:2px;}
+
+/* CATALOG */
+section{padding:5rem 2rem;max-width:1200px;margin:0 auto;}
+.section-header{text-align:center;margin-bottom:3rem;}
+.section-tag{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:10px;}
+.section-header h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5vw,3.5rem);letter-spacing:3px;color:var(--white);}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem;}
+.filter-btn{padding:8px 20px;border-radius:2px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--gray);font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:'Barlow Condensed',sans-serif;}
+.filter-btn:hover{background:rgba(204,28,28,.12);border-color:rgba(204,28,28,.3);color:var(--white);}
+.filter-btn.active{background:var(--red);border-color:var(--red);color:var(--white);}
+.search-wrap{display:flex;justify-content:center;margin-bottom:2rem;}
+.search-input{width:100%;max-width:420px;padding:12px 18px 12px 44px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:2px;color:var(--white);font-family:'Barlow',sans-serif;font-size:14px;outline:none;transition:border-color .2s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a8f9e' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:14px center;}
+.search-input:focus{border-color:var(--red);}
+.search-input::placeholder{color:var(--gray);}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
+.product-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:4px;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;display:flex;flex-direction:column;}
+.product-card:hover{transform:translateY(-4px);border-color:rgba(204,28,28,.5);box-shadow:0 12px 40px rgba(0,0,0,.4);}
+.card-img-wrap{position:relative;height:180px;overflow:hidden;background:#0a1530;}
+.card-img-wrap img{width:100%;height:100%;object-fit:contain;padding:12px;transition:transform .3s;}
+.product-card:hover .card-img-wrap img{transform:scale(1.05);}
+.card-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.card-cat-icon-big{font-size:3rem;line-height:1;}
+.card-cat-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;background:rgba(204,28,28,.1);padding:3px 10px;border-radius:1px;}
+.card-body{padding:1.1rem 1.2rem 1.2rem;flex:1;display:flex;flex-direction:column;}
+.card-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.02em;color:var(--white);line-height:1.3;margin-bottom:6px;}
+.card-variant{font-size:12px;color:var(--gray);margin-bottom:auto;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);}
+.card-price{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;color:var(--white);}
+.card-price span{font-size:1rem;color:var(--gray);}
+.card-btn{background:var(--red);color:var(--white);border:none;border-radius:2px;padding:7px 14px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;cursor:pointer;transition:background .2s;}
+.card-btn:hover{background:var(--red2);}
+.no-results{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--gray);font-size:15px;}
+
+/* ABOUT */
+.about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;padding:5rem 2rem;max-width:1200px;margin:0 auto;border-top:1px solid rgba(255,255,255,.06);}
+.about-text .section-tag{text-align:left;display:block;}
+.about-text h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:3px;margin-bottom:1.5rem;}
+.about-text p{color:var(--gray);line-height:1.8;font-size:15px;margin-bottom:1rem;}
+.about-visual{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.about-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:4px;padding:1.4rem;text-align:center;}
+.about-card .num{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--red);line-height:1;}
+.about-card .lbl{font-size:12px;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;}
+
+/* FOOTER */
+footer{background:#09122b;border-top:1px solid rgba(204,28,28,.2);padding:3rem 2rem 2rem;text-align:center;}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:1.5rem;}
+.footer-logo img{width:56px;height:56px;object-fit:contain;border-radius:50%;}
+.footer-logo span{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;}
+.footer-tagline{color:var(--gray);font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:2rem;}
+.footer-social{display:flex;gap:20px;justify-content:center;margin-bottom:2rem;}
+.footer-social a{display:flex;align-items:center;gap:8px;color:var(--gray);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s;}
+.footer-social a:hover{color:var(--red2);}
+.footer-social svg{width:20px;height:20px;fill:currentColor;}
+.footer-copy{font-size:12px;color:rgba(138,143,158,.5);}
+.footer-divider{width:40px;height:2px;background:var(--red);margin:1.5rem auto;}
+#backTop{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:var(--red);border:none;border-radius:2px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;z-index:50;}
+#backTop.visible{opacity:1;pointer-events:all;}
+#backTop:hover{transform:translateY(-2px);}
+
+/* ===== CART SIDEBAR ===== */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;}
+.cart-overlay.open{opacity:1;pointer-events:all;}
+.cart-sidebar{position:fixed;top:0;right:0;width:400px;max-width:100vw;height:100vh;background:#0d1b3e;border-left:1px solid rgba(204,28,28,.25);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.cart-sidebar.open{transform:translateX(0);}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.07);}
+.cart-header h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;}
+.cart-close{background:none;border:none;color:var(--gray);cursor:pointer;font-size:24px;line-height:1;transition:color .2s;}
+.cart-close:hover{color:var(--white);}
+.cart-items{flex:1;overflow-y:auto;padding:1rem 1.5rem;}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--gray);}
+.cart-empty p{font-size:14px;margin-top:.5rem;}
+.cart-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.cart-item-icon{width:50px;height:50px;background:#0a1530;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;line-height:1.3;margin-bottom:4px;}
+.cart-item-price{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--red);}
+.cart-item-qty{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.qty-btn{width:24px;height:24px;background:rgba(255,255,255,.08);border:none;color:var(--white);border-radius:2px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.qty-btn:hover{background:var(--red);}
+.qty-num{font-size:13px;font-weight:600;min-width:20px;text-align:center;}
+.cart-remove{background:none;border:none;color:var(--gray);cursor:pointer;font-size:16px;padding:0 4px;transition:color .2s;}
+.cart-remove:hover{color:var(--red);}
+.cart-footer{padding:1.5rem;border-top:1px solid rgba(255,255,255,.07);}
+.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
+.cart-total-label{font-size:13px;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;}
+.cart-total-price{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);}
+.checkout-btn{width:100%;background:var(--red);color:var(--white);border:none;border-radius:2px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.checkout-btn:hover{background:var(--red2);}
+.checkout-btn:disabled{background:#555;cursor:not-allowed;}
+
+/* ===== CHECKOUT MODAL ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#0d1b3e;border:1px solid rgba(204,28,28,.3);border-radius:6px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;transform:scale(.95);transition:transform .3s;}
+.modal-overlay.open .modal{transform:scale(1);}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 1.6rem;border-bottom:1px solid rgba(255,255,255,.07);}
+.modal-header h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;}
+.modal-close{background:none;border:none;color:var(--gray);cursor:pointer;font-size:24px;transition:color .2s;}
+.modal-close:hover{color:var(--white);}
+.modal-body{padding:1.6rem;}
+.modal-section{margin-bottom:1.8rem;}
+.modal-section h4{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;padding-bottom:6px;border-bottom:1px solid rgba(204,28,28,.2);}
+.form-group{margin-bottom:1rem;}
+.form-group label{display:block;font-size:12px;color:var(--gray);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
+.form-input{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:2px;color:var(--white);font-family:'Barlow',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--red);}
+.form-input::placeholder{color:#4a5268;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.card-icons{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
+.card-icon{background:rgba(255,255,255,.08);border-radius:3px;padding:4px 8px;font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--gray);}
+.order-summary{background:rgba(255,255,255,.03);border-radius:4px;padding:1rem;margin-bottom:1.2rem;}
+.order-summary-item{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;color:var(--gray);}
+.order-summary-item:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);color:var(--white);font-weight:600;}
+.order-summary-item span:last-child{font-family:'Bebas Neue',sans-serif;font-size:1rem;}
+.pay-btn{width:100%;background:var(--red);color:var(--white);border:none;border-radius:2px;padding:15px;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:.5rem;}
+.pay-btn:hover{background:var(--red2);}
+.secure-note{text-align:center;font-size:11px;color:var(--gray);margin-top:10px;display:flex;align-items:center;justify-content:center;gap:5px;}
+
+/* SUCCESS */
+.success-screen{display:none;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;text-align:center;}
+.success-screen.show{display:flex;}
+.success-icon{width:72px;height:72px;background:rgba(50,200,100,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;font-size:2rem;}
+.success-screen h3{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;margin-bottom:.5rem;}
+.success-screen p{color:var(--gray);font-size:14px;line-height:1.7;}
+.success-ref{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--red);margin:.5rem 0;}
+
+/* TOAST */
+.toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--red);color:white;padding:10px 22px;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.08em;z-index:500;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media(max-width:768px){
+  nav{padding:0 1.2rem;}
+  .nav-links{display:none;}
+  .about-wrap{grid-template-columns:1fr;gap:2.5rem;}
+  .stats-bar{gap:2rem;}
+  .cart-sidebar{width:100%;}
+  .form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#inicio" class="nav-logo">
+    <img id="navLogo" src="" alt="MCSUPLES">
+    <span>MCSUPLES</span>
+  </a>
+  <div class="nav-links">
+    <a href="#catalogo">Catálogo</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-social">
+      <a href="https://www.instagram.com/mcsuples/" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://web.facebook.com/profile.php?id=100005401128197" target="_blank" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+    </div>
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 Carrito
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="inicio" style="position:relative;">
+  <div class="hero-grid"></div>
+  <div class="hero">
+    <img id="heroLogo" class="hero-logo" src="" alt="MCSUPLES">
+    <h1>MC<span>SUPLES</span></h1>
+    <p class="hero-tagline">Impulsando Tu Mejor Versión</p>
+    <div class="hero-divider"></div>
+    <div class="hero-cta">
+      <a href="#catalogo" class="btn-primary">Ver catálogo</a>
+      <a href="https://www.instagram.com/mcsuples/" target="_blank" class="btn-outline">Seguirnos en Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Productos</div></div>
+  <div class="stat"><div class="stat-num">6</div><div class="stat-label">Categorías</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Originales</div></div>
+  <div class="stat"><div class="stat-num">🇨🇱</div><div class="stat-label">Chile</div></div>
+</div>
+
+<!-- CATALOG -->
+<section id="catalogo">
+  <div class="section-header">
+    <span class="section-tag">Nuestros productos</span>
+    <h2>CATÁLOGO COMPLETO</h2>
+  </div>
+  <div class="search-wrap">
+    <input class="search-input" type="text" id="searchInput" placeholder="Buscar producto..." oninput="filterProducts()">
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all',this)">Todos</button>
+    <button class="filter-btn" onclick="setFilter('Proteína',this)">Proteínas</button>
+    <button class="filter-btn" onclick="setFilter('Creatina',this)">Creatinas</button>
+    <button class="filter-btn" onclick="setFilter('Vitaminas',this)">Vitaminas</button>
+    <button class="filter-btn" onclick="setFilter('Pre-entreno',this)">Pre-entrenos</button>
+    <button class="filter-btn" onclick="setFilter('Barras',this)">Barras</button>
+    <button class="filter-btn" onclick="setFilter('Accesorio',this)">Accesorios</button>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<div id="nosotros" class="about-wrap">
+  <div class="about-text">
+    <span class="section-tag">Sobre nosotros</span>
+    <h2>COMPROMETIDOS CON TU RENDIMIENTO</h2>
+    <p>En MCSUPLES creemos que cada persona merece acceder a suplementación de calidad para alcanzar sus objetivos. Desde proteínas y creatinas hasta vitaminas y accesorios.</p>
+    <p>Trabajamos con las mejores marcas: Foodtech, Redcon1, Nutrex, Now Foods, Animal, Cellucor y más, garantizando productos 100% originales.</p>
+    <div style="margin-top:2rem;display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="https://www.instagram.com/mcsuples/" target="_blank" class="btn-primary">Instagram</a>
+      <a href="https://web.facebook.com/profile.php?id=100005401128197" target="_blank" class="btn-outline">Facebook</a>
+    </div>
+  </div>
+  <div class="about-visual">
+    <div class="about-card"><div class="num">40+</div><div class="lbl">Referencias</div></div>
+    <div class="about-card"><div class="num">6</div><div class="lbl">Categorías</div></div>
+    <div class="about-card"><div class="num">10+</div><div class="lbl">Marcas top</div></div>
+    <div class="about-card"><div class="num">100%</div><div class="lbl">Originales</div></div>
+  </div>
+</div>
+
+<footer id="contacto">
+  <div class="footer-logo">
+    <img id="footerLogo" src="" alt="MCSUPLES" style="width:56px;height:56px;border-radius:50%;object-fit:contain;">
+    <span>MCSUPLES</span>
+  </div>
+  <p class="footer-tagline">Impulsando Tu Mejor Versión</p>
+  <div class="footer-divider"></div>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/mcsuples/" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      @mcsuples
+    </a>
+    <a href="https://web.facebook.com/profile.php?id=100005401128197" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook
+    </a>
+  </div>
+  <p class="footer-copy">© 2026 MCSUPLES — Todos los derechos reservados · Chile</p>
+</footer>
+
+<button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Arriba">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>🛒 Tu Carrito</h3>
+    <button class="cart-close" onclick="toggleCart()">×</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><div style="font-size:3rem;">🛒</div><p>Tu carrito está vacío</p></div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-price" id="cartTotal">$0</span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()" disabled>Proceder al pago</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="checkoutModal">
+    <div class="modal-header">
+      <h3>Finalizar Compra</h3>
+      <button class="modal-close" onclick="closeCheckout()">×</button>
+    </div>
+    <div class="modal-body" id="checkoutBody">
+      <!-- Resumen -->
+      <div class="modal-section">
+        <h4>Resumen del Pedido</h4>
+        <div class="order-summary" id="orderSummary"></div>
+      </div>
+      <!-- Datos personales -->
+      <div class="modal-section">
+        <h4>Datos de Contacto</h4>
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" class="form-input" id="fName" placeholder="Juan Pérez">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-input" id="fEmail" placeholder="juan@email.com">
+          </div>
+          <div class="form-group">
+            <label>Teléfono</label>
+            <input type="tel" class="form-input" id="fPhone" placeholder="+56 9 1234 5678">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Dirección de entrega</label>
+          <input type="text" class="form-input" id="fAddress" placeholder="Av. Ejemplo 123, Santiago">
+        </div>
+      </div>
+      <!-- Pago -->
+      <div class="modal-section">
+        <h4>Método de Pago</h4>
+        <div class="card-icons">
+          <span class="card-icon" style="background:rgba(0,158,227,0.15);color:#009EE3;border:1px solid rgba(0,158,227,0.3);">🔵 MercadoPago</span>
+          <span class="card-icon">VISA</span>
+          <span class="card-icon">MASTERCARD</span>
+          <span class="card-icon">DÉBITO</span>
+        </div>
+        <div style="background:rgba(0,158,227,0.08);border:1px solid rgba(0,158,227,0.25);border-radius:4px;padding:14px;font-size:13px;color:#7ab8d9;line-height:1.6;">
+          💳 Al hacer clic en <strong>"Pagar con MercadoPago"</strong> serás redirigido al entorno seguro de MercadoPago donde podrás pagar con:<br><br>
+          ✅ Tarjeta de crédito o débito<br>
+          ✅ Transferencia bancaria<br>
+          ✅ Cuotas sin interés<br>
+          ✅ WebPay y otros medios
+        </div>
+      </div>
+      <button class="pay-btn" id="mpBtn" onclick="processPayment()">🔒 Pagar con MercadoPago</button>
+      <div class="secure-note">🔒 Serás redirigido a MercadoPago para completar tu pago de forma segura</div>
+    </div>
+    <!-- Pantalla de éxito -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">✅</div>
+      <h3>¡Pedido Confirmado!</h3>
+      <p class="success-ref" id="successRef"></p>
+      <p>Gracias por tu compra en MCSUPLES.<br>Recibirás un mensaje de confirmación por WhatsApp/Instagram a la brevedad.</p>
+      <br>
+      <button class="btn-primary" onclick="closeCheckout();clearCart()">Volver a la tienda</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== LOGO =====
+// El logo se carga desde la imagen adjunta por el usuario
+// Usamos el logo del HTML original como base64
+const LOGO_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCADmAOYDASIAAhEBAxEB/8QAGwABAAMBAQEBAAAAAAAAAAAAAAECAwQFBgf/xAA4EAABBAEDAgQEBAUEAwAAAAABAAIDEQQSITFBUWEFE3GBkSKhBhQyUmKx0SNCweEzQ3Kiwv/EABkBAQEBAQEBAAAAAAAAAAAAAAABAgMEBf/EACIRAQEAAgIDAAMBAQAAAAAAAAABAhEDITESQVETYf/aAAwDAQACEQMRAD8A+f0REBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEQEQEREBERAREQEREBERAREQEREREREREQEREREQEREREQEREBERAREQEREREBERAREQEREBEREREBERAREQEREREBEREREQEREBERAREQEREBEREB//9k=";
+
+document.getElementById('navLogo').src = LOGO_SRC;
+document.getElementById('heroLogo').src = LOGO_SRC;
+document.getElementById('footerLogo').src = LOGO_SRC;
+
+// ===== PRODUCTS =====
+const PRODUCTS = [
+  {name:"Iso100% Hydro Whey 2lbs",brand:"Foodtech",cat:"Proteína",price:51990,variants:"Chocolate · Cookies & Cream · Vainilla · Frutos Rojos",icon:"💪"},
+  {name:"Tasty Protein 100% Whey 2lbs",brand:"Foodtech",cat:"Proteína",price:31990,variants:"Choc Mint · Coconut Ice Cream · Plátano · Pistachio",icon:"💪"},
+  {name:"Creatina Monohidrato 300g",brand:"",cat:"Creatina",price:13990,variants:"",icon:"⚡"},
+  {name:"Creatina Monohidrato 1kg",brand:"",cat:"Creatina",price:27990,variants:"",icon:"⚡"},
+  {name:"Creatine 100% Pure 60 svs",brand:"Foodtech",cat:"Creatina",price:14990,variants:"",icon:"⚡"},
+  {name:"Creatina Creapure 300g",brand:"Protella",cat:"Creatina",price:27990,variants:"Berry Mix",icon:"⚡"},
+  {name:"Creatine Monohydrate 60 svs",brand:"Redcon1",cat:"Creatina",price:18990,variants:"",icon:"⚡"},
+  {name:"Animal Creatine Powder 300g",brand:"Animal",cat:"Creatina",price:18990,variants:"",icon:"⚡"},
+  {name:"Creatina Drive 1kg",brand:"Nutrex",cat:"Creatina",price:38990,variants:"",icon:"⚡"},
+  {name:"Creatina Drive 300g",brand:"Nutrex",cat:"Creatina",price:14990,variants:"",icon:"⚡"},
+  {name:"Keto Collagen 300g",brand:"Procollagen",cat:"Vitaminas",price:17990,variants:"",icon:"🌿"},
+  {name:"Just Collagen 360g",brand:"Procollagen",cat:"Vitaminas",price:17990,variants:"",icon:"🌿"},
+  {name:"Cacao Collagen 300g",brand:"Procollagen",cat:"Vitaminas",price:17990,variants:"",icon:"🌿"},
+  {name:"Omega 3 · 60 cápsulas",brand:"",cat:"Vitaminas",price:18990,variants:"800 EPA / 400 DHA",icon:"🌿"},
+  {name:"Omega 3 · 180 cápsulas",brand:"",cat:"Vitaminas",price:19791,variants:"",icon:"🌿"},
+  {name:"Colágeno Hidrolizado 300g Frutos del bosque",brand:"",cat:"Vitaminas",price:24990,variants:"",icon:"🌿"},
+  {name:"Colágeno Hidrolizado 300g Naranja",brand:"",cat:"Vitaminas",price:24990,variants:"",icon:"🌿"},
+  {name:"HMB Advance 1000mg 120 Caps",brand:"Foodtech",cat:"Vitaminas",price:17990,variants:"",icon:"🌿"},
+  {name:"ZMA Complex 120 Caps",brand:"Foodtech",cat:"Vitaminas",price:19500,variants:"",icon:"🌿"},
+  {name:"ZMA 800mg 90 Caps",brand:"Now Foods",cat:"Vitaminas",price:22990,variants:"",icon:"🌿"},
+  {name:"Magnesium Bisglycinate 227g",brand:"Now Foods",cat:"Vitaminas",price:19990,variants:"",icon:"🌿"},
+  {name:"BCAA 6000 · 30 svs",brand:"Nutrex",cat:"Vitaminas",price:22990,variants:"Green Apple",icon:"🌿"},
+  {name:"Citrato de Magnesio 180 Caps",brand:"Foodtech",cat:"Vitaminas",price:21500,variants:"",icon:"🌿"},
+  {name:"Cafeína 200 · 60 Caps",brand:"Nutrex",cat:"Vitaminas",price:14990,variants:"",icon:"🌿"},
+  {name:"Beta Alanine 300g",brand:"",cat:"Pre-entreno",price:29990,variants:"",icon:"🔥"},
+  {name:"CBUM Pre Workout 417g",brand:"Raw Nutrition",cat:"Pre-entreno",price:32990,variants:"Grape",icon:"🔥"},
+  {name:"Total War Preworkout 600g",brand:"Redcon1",cat:"Pre-entreno",price:27990,variants:"Fruit Punch",icon:"🔥"},
+  {name:"Caffeine Xtreme 400mg 120 Caps",brand:"Foodtech",cat:"Pre-entreno",price:17990,variants:"",icon:"🔥"},
+  {name:"Pre-Entreno Premium Line 600g",brand:"Foodtech",cat:"Pre-entreno",price:23990,variants:"Manzana",icon:"🔥"},
+  {name:"Pack Total War",brand:"Redcon1",cat:"Pre-entreno",price:27500,variants:"",icon:"🔥"},
+  {name:"C4 Sport Pre-Workout",brand:"Cellucor",cat:"Pre-entreno",price:24990,variants:"Blue Raspberry",icon:"🔥"},
+  {name:"Caja Classic Protein Bar 16u",brand:"Maxi Nutrition",cat:"Barras",price:28800,variants:"Chocolate Brownie",icon:"🍫"},
+  {name:"Shaker Shaks 700ml",brand:"Foodtech",cat:"Accesorio",price:4000,variants:"Black",icon:"🥤"},
+  {name:"Shaker 750ml",brand:"Redcon1",cat:"Accesorio",price:4000,variants:"Black & Red",icon:"🥤"},
+];
+
+const CAT_COLORS={
+  "Proteína":{bg:"#0a1a40",accent:"#4a90d9"},
+  "Creatina":{bg:"#0a1e10",accent:"#5a9932"},
+  "Vitaminas":{bg:"#160a2e",accent:"#8a7add"},
+  "Pre-entreno":{bg:"#1e1000",accent:"#d48522"},
+  "Barras":{bg:"#1e0a18",accent:"#d46388"},
+  "Accesorio":{bg:"#141414",accent:"#999"}
+};
+
+let activeFilter="all";
+let cart=[];
+
+function setFilter(cat,btn){
+  activeFilter=cat;
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  filterProducts();
+}
+
+function filterProducts(){
+  const q=document.getElementById("searchInput").value.toLowerCase();
+  let filtered=PRODUCTS.filter(p=>{
+    const mc=activeFilter==="all"||p.cat===activeFilter;
+    const mq=q===""||p.name.toLowerCase().includes(q)||(p.brand&&p.brand.toLowerCase().includes(q))||p.variants.toLowerCase().includes(q);
+    return mc&&mq;
+  });
+  const grid=document.getElementById("productGrid");
+  if(!filtered.length){grid.innerHTML='<div class="no-results">No se encontraron productos.</div>';return;}
+  grid.innerHTML=filtered.map((p,i)=>{
+    const c=CAT_COLORS[p.cat]||{bg:"#141414",accent:"#cc1c1c"};
+    const pr=p.price.toLocaleString("es-CL");
+    const idx=PRODUCTS.indexOf(p);
+    return `<div class="product-card">
+      <div class="card-img-wrap" style="background:linear-gradient(135deg,${c.bg} 0%,#1a2040 100%);">
+        <div class="card-img-placeholder">
+          <div class="card-cat-icon-big">${p.icon}</div>
+          <div class="card-cat-label" style="color:${c.accent};background:${c.accent}20;">${p.cat}</div>
+          ${p.brand?`<div style="font-size:10px;color:${c.accent};opacity:.7;margin-top:4px;">${p.brand}</div>`:""}
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${p.name}</div>
+        ${p.variants?`<div class="card-variant">${p.variants}</div>`:"<div class='card-variant'>&nbsp;</div>"}
+        <div class="card-footer">
+          <div class="card-price"><span>$</span>${pr}</div>
+          <button class="card-btn" onclick="addToCart(${idx})">+ Agregar</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+// ===== CART =====
+function addToCart(idx){
+  const p=PRODUCTS[idx];
+  const ex=cart.find(i=>i.idx===idx);
+  if(ex){ex.qty++;}
+  else{cart.push({idx,name:p.name,price:p.price,icon:p.icon,qty:1});}
+  updateCartUI();
+  showToast("✅ "+p.name.substring(0,25)+"... agregado");
+}
+
+function removeFromCart(idx){
+  cart=cart.filter(i=>i.idx!==idx);
+  updateCartUI();
+}
+
+function changeQty(idx,delta){
+  const item=cart.find(i=>i.idx===idx);
+  if(!item)return;
+  item.qty+=delta;
+  if(item.qty<=0)removeFromCart(idx);
+  else updateCartUI();
+}
+
+function updateCartUI(){
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const count=cart.reduce((s,i)=>s+i.qty,0);
+  const countEl=document.getElementById("cartCount");
+  countEl.textContent=count;
+  count>0?countEl.classList.add("show"):countEl.classList.remove("show");
+  const btn=document.getElementById("checkoutBtn");
+  btn.disabled=cart.length===0;
+  document.getElementById("cartTotal").textContent="$"+total.toLocaleString("es-CL");
+  const itemsEl=document.getElementById("cartItems");
+  if(cart.length===0){
+    itemsEl.innerHTML='<div class="cart-empty"><div style="font-size:3rem;">🛒</div><p>Tu carrito está vacío</p></div>';
+    return;
+  }
+  itemsEl.innerHTML=cart.map(item=>`
+    <div class="cart-item">
+      <div class="cart-item-icon">${item.icon}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">$${(item.price*item.qty).toLocaleString("es-CL")}</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${item.idx},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.idx},1)">+</button>
+          <button class="cart-remove" onclick="removeFromCart(${item.idx})">🗑</button>
+        </div>
+      </div>
+    </div>`).join("");
+}
+
+function toggleCart(){
+  document.getElementById("cartSidebar").classList.toggle("open");
+  document.getElementById("cartOverlay").classList.toggle("open");
+}
+
+function clearCart(){
+  cart=[];
+  updateCartUI();
+}
+
+// ===== CHECKOUT =====
+function openCheckout(){
+  if(cart.length===0)return;
+  toggleCart();
+  buildOrderSummary();
+  document.getElementById("checkoutBody").style.display="block";
+  document.getElementById("successScreen").classList.remove("show");
+  document.getElementById("modalOverlay").classList.add("open");
+}
+
+function closeCheckout(){
+  document.getElementById("modalOverlay").classList.remove("open");
+}
+
+function buildOrderSummary(){
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  let html=cart.map(i=>`
+    <div class="order-summary-item">
+      <span>${i.name.substring(0,30)}${i.name.length>30?"…":""} x${i.qty}</span>
+      <span>$${(i.price*i.qty).toLocaleString("es-CL")}</span>
+    </div>`).join("");
+  html+=`<div class="order-summary-item"><span>TOTAL</span><span>$${total.toLocaleString("es-CL")}</span></div>`;
+  document.getElementById("orderSummary").innerHTML=html;
+}
+
+function formatCard(el){
+  let v=el.value.replace(/\D/g,"").substring(0,16);
+  el.value=v.replace(/(.{4})/g,"$1 ").trim();
+}
+
+function formatExp(el){
+  let v=el.value.replace(/\D/g,"").substring(0,4);
+  if(v.length>=2)v=v.substring(0,2)+"/"+v.substring(2);
+  el.value=v;
+}
+
+async function processPayment(){
+  const name=document.getElementById("fName").value.trim();
+  const email=document.getElementById("fEmail").value.trim();
+  const phone=document.getElementById("fPhone").value.trim();
+  const addr=document.getElementById("fAddress").value.trim();
+
+  if(!name||!email||!addr){
+    showToast("⚠️ Completa nombre, email y dirección");return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    showToast("⚠️ Email inválido");return;
+  }
+
+  const btn=document.getElementById("mpBtn");
+  btn.disabled=true;
+  btn.textContent="⏳ Conectando con MercadoPago...";
+
+  const items = cart.map(i=>({
+    title: i.name.substring(0,60),
+    quantity: i.qty,
+    unit_price: i.price,
+    currency_id: "CLP"
+  }));
+
+  const preference = {
+    items: items,
+    payer: {
+      name: name,
+      email: email,
+      phone: { number: phone || "" }
+    },
+    back_urls: {
+      success: window.location.origin + "/?pago=ok",
+      failure: window.location.origin + "/?pago=error",
+      pending: window.location.origin + "/?pago=pendiente"
+    },
+    auto_return: "approved",
+    statement_descriptor: "MCSUPLES",
+    external_reference: "MCS-"+Date.now()
+  };
+
+  try {
+    const response = await fetch("/create-preference", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(preference)
+    });
+
+    const data = await response.json();
+    console.log("Respuesta MP:", data);
+
+    if(data.init_point){
+      window.location.href = data.init_point;
+    } else {
+      throw new Error(data.error || "No se recibió link de pago");
+    }
+  } catch(err) {
+    console.error("Error completo:", err);
+    showToast("❌ Error: " + err.message);
+    btn.disabled=false;
+    btn.textContent="🔒 Pagar con MercadoPago";
+  }
+}
+
+// ===== TOAST =====
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+// SCROLL
+window.addEventListener("scroll",()=>{
+  const b=document.getElementById("backTop");
+  window.scrollY>400?b.classList.add("visible"):b.classList.remove("visible");
+});
+
+// Cerrar modal con Escape
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){
+    closeCheckout();
+    if(document.getElementById("cartSidebar").classList.contains("open"))toggleCart();
+  }
+});
+
+filterProducts();
+</script>
+</body>
+</html>
